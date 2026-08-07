@@ -1,22 +1,35 @@
-// --- FUNCIONALIDADE 1: Sistema de Troca de Abas ---
+// --- FUNCIONALIDADE 1: Alternar Menu Hambúrguer em Telas Menores ---
+const hamburgerBtn = document.getElementById('hamburger-btn');
+const tabsNav = document.getElementById('tabs-nav');
+
+hamburgerBtn.addEventListener('click', () => {
+    tabsNav.classList.toggle('show');
+});
+
+// --- FUNCIONALIDADE 2: Sistema de Troca de Abas ---
 function openTab(evt, tabName) {
-    // Esconde todas as seções de abas
+    // Esconde todas as seções
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
         content.classList.remove('active');
     });
 
-    // Remove a classe "active" de todos os botões de abas
+    // Desmarca todos os botões de aba
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
         btn.classList.remove('active');
     });
 
-    // Mostra a aba atual e marca o botão clicado como ativo
+    // Exibe a aba clicada e marca o botão como ativo
     document.getElementById(tabName).classList.add('active');
     evt.currentTarget.classList.add('active');
 
-    // Se o leitor de voz estiver lendo, cancela ao trocar de aba
+    // Fecha o menu hambúrguer automaticamente no celular após a seleção
+    if (window.innerWidth <= 768) {
+        tabsNav.classList.remove('show');
+    }
+
+    // Para o leitor de voz caso esteja ativo ao trocar de aba
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         reading = false;
@@ -24,7 +37,7 @@ function openTab(evt, tabName) {
     }
 }
 
-// --- FUNCIONALIDADE 2: Aumentar e Diminuir Fonte (Zoom) ---
+// --- FUNCIONALIDADE 3: Aumentar e Diminuir Fonte ---
 let fontSizePercent = 100;
 const body = document.body;
 
@@ -42,7 +55,7 @@ document.getElementById('btn-decrease').addEventListener('click', () => {
     }
 });
 
-// --- FUNCIONALIDADE 3: Leitor de Voz para a Aba Ativa ---
+// --- FUNCIONALIDADE 4: Leitor por Voz para a Aba Ativa ---
 let reading = false;
 const btnSpeak = document.getElementById('btn-speak');
 
@@ -53,7 +66,6 @@ btnSpeak.addEventListener('click', () => {
             reading = false;
             btnSpeak.innerText = '🔊 Ouvir Aba Atual';
         } else {
-            // Pega apenas o texto da aba que está visível no momento (.tab-content.active)
             const activeTab = document.querySelector('.tab-content.active');
             const textToRead = activeTab ? activeTab.innerText : '';
 

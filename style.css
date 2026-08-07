@@ -1,14 +1,24 @@
+/* Variáveis de Cores Solicitadas */
+:root {
+    --color-cream: #FCEE8C;
+    --color-light-green: #A7C686;
+    --color-teal: #40957F;
+    --color-dark-teal: #3D6868;
+    --color-dark-slate: #3C515D;
+    --bg-light: #f7f9f6;
+}
+
 /* Configurações Globais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background-color: #f4f6f9;
-    color: #333;
+    background-color: var(--bg-light);
+    color: var(--color-dark-slate);
     line-height: 1.6;
     transition: font-size 0.2s ease;
 }
@@ -19,113 +29,152 @@ body {
     margin: 0 auto;
 }
 
-/* Barra de Acessibilidade */
+/* --- Barra de Acessibilidade (Canto Esquerdo e Botões Arredondados) --- */
 .accessibility-bar {
-    background-color: #1a252f;
+    background-color: var(--color-dark-slate);
     color: #fff;
-    padding: 8px 0;
-    font-size: 0.9rem;
+    padding: 10px 0;
 }
 
-.accessibility-bar .container {
+.accessibility-container {
     display: flex;
+    justify-content: flex-start; /* Alinhado totalmente à esquerda */
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
+}
+
+.acc-label {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--color-cream);
 }
 
 .accessibility-bar button {
-    background-color: #34495e;
+    background-color: var(--color-teal);
     color: #fff;
     border: none;
-    padding: 5px 12px;
-    border-radius: 4px;
+    padding: 6px 16px;
+    border-radius: 20px; /* Borda bem arredondada */
     cursor: pointer;
     font-weight: bold;
+    font-size: 0.85rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .accessibility-bar button:hover {
-    background-color: #2fcc71;
-    color: #000;
+    background-color: var(--color-cream);
+    color: var(--color-dark-slate);
 }
 
-/* Header e Navegação por Abas */
+/* --- Header Principal e Título --- */
 .main-header {
-    background-color: #2c3e50;
+    background-color: var(--color-dark-teal);
     color: white;
     padding: 20px 0 0 0;
 }
 
-.main-header .container {
+.header-top {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
 }
 
+/* Título Ampliado */
+.main-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--color-cream);
+    letter-spacing: 0.5px;
+}
+
+/* --- Menu de Abas (Desktop) --- */
 .tabs-nav {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
 
-/* Botões das Abas */
 .tab-btn {
-    background-color: #34495e;
+    background-color: var(--color-dark-slate);
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 14px 22px;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    border-radius: 8px 8px 0 0;
-    transition: background-color 0.2s ease;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.2s ease;
 }
 
 .tab-btn:hover {
-    background-color: #3498db;
+    background-color: var(--color-light-green);
+    color: var(--color-dark-slate);
 }
 
 .tab-btn.active {
-    background-color: #f4f6f9;
-    color: #2c3e50;
-    border-top: 4px solid #3498db;
+    background-color: white;
+    color: var(--color-dark-teal);
+    border-top: 5px solid var(--color-teal);
 }
 
-/* Controle de Visibilidade das Abas */
+/* Botão Hambúrguer (Oculto no Desktop) */
+.hamburger-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 30px;
+    height: 4px;
+    background-color: var(--color-cream);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* --- Conteúdo das Seções --- */
 .tab-content {
-    display: none; /* Esconde todas as abas por padrão */
+    display: none;
     background-color: white;
     margin: 25px 0;
-    padding: 25px;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .tab-content.active {
-    display: block; /* Exibe apenas a aba ativa */
+    display: block;
 }
 
 .tab-content h2 {
-    color: #2c3e50;
-    border-bottom: 3px solid #3498db;
+    color: var(--color-dark-teal);
+    border-bottom: 3px solid var(--color-light-green);
     padding-bottom: 8px;
     margin-bottom: 20px;
 }
 
 /* Cartões dos Projetos */
 .project-card {
-    background-color: #f8f9fa;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    padding: 18px;
+    background-color: #fafcf8;
+    border: 1px solid var(--color-light-green);
+    border-radius: 8px;
+    padding: 20px;
     margin-bottom: 25px;
 }
 
 .project-card h3 {
-    color: #2980b9;
-    margin-bottom: 10px;
+    color: var(--color-teal);
+    margin-bottom: 12px;
 }
 
-/* Mídias: Imagens e Vídeos */
+/* Mídias */
 .media-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -135,9 +184,9 @@ body {
 
 .media-grid figure {
     background-color: #fff;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
 }
 
 .media-grid img {
@@ -149,15 +198,15 @@ body {
 
 figcaption, .media-caption {
     font-size: 0.85rem;
-    color: #666;
-    margin-top: 5px;
+    color: var(--color-dark-slate);
+    margin-top: 6px;
     font-style: italic;
 }
 
 .video-box {
     margin-top: 15px;
-    background: #000;
-    padding: 10px;
+    background: var(--color-dark-slate);
+    padding: 12px;
     border-radius: 6px;
 }
 
@@ -168,5 +217,47 @@ figcaption, .media-caption {
 }
 
 .video-box .media-caption {
-    color: #eee;
+    color: var(--color-cream);
+}
+
+/* --- RESPONSIVIDADE PARA CELULAR --- */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 1.9rem; /* Reduz ligeiramente para caber melhor na tela do celular */
+    }
+
+    /* Exibe o botão Hambúrguer no Celular */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Menu Escondido por padrão no celular */
+    .tabs-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding-bottom: 15px;
+    }
+
+    /* Quando ativado pelo botão hambúrguer */
+    .tabs-nav.show {
+        display: flex;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+        border-radius: 6px;
+        padding: 12px 15px;
+    }
+
+    .tab-btn.active {
+        border-top: none;
+        border-left: 6px solid var(--color-teal);
+    }
+
+    .tab-content {
+        padding: 18px;
+        border-radius: 8px;
+    }
 }

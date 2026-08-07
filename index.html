@@ -9,8 +9,8 @@
 <body>
 
     <header class="accessibility-bar">
-        <div class="container">
-            <span>Acessibilidade:</span>
+        <div class="container accessibility-container">
+            <span class="acc-label">Acessibilidade:</span>
             <button id="btn-increase" title="Aumentar tamanho do texto">🔍 A+</button>
             <button id="btn-decrease" title="Diminuir tamanho do texto">🔍 A-</button>
             <button id="btn-speak" title="Ler conteúdo da aba visível">🔊 Ouvir Aba Atual</button>
@@ -18,9 +18,18 @@
     </header>
 
     <header class="main-header">
-        <div class="container">
-            <h1>Projeto Integrador</h1>
-            <nav class="tabs-nav">
+        <div class="container header-container">
+            <div class="header-top">
+                <h1 class="main-title">Projeto Integrador</h1>
+                
+                <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <nav class="tabs-nav" id="tabs-nav">
                 <button class="tab-btn active" onclick="openTab(event, 'otica')">Introdução à Ótica</button>
                 <button class="tab-btn" onclick="openTab(event, 'robotica')">Robótica</button>
                 <button class="tab-btn" onclick="openTab(event, 'fisica-tecnociencia')">Física e Tecnociência</button>
