@@ -48,58 +48,70 @@ body {
     color: #000;
 }
 
-/* Header e Menu Navegação */
+/* Header e Navegação por Abas */
 .main-header {
     background-color: #2c3e50;
     color: white;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    padding: 20px 0 0 0;
 }
 
 .main-header .container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
+    flex-direction: column;
     gap: 15px;
 }
 
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
+.tabs-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.nav-links a:hover {
+/* Botões das Abas */
+.tab-btn {
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: background-color 0.2s ease;
+}
+
+.tab-btn:hover {
     background-color: #3498db;
 }
 
-/* Cartões e Seções */
-.content-section {
+.tab-btn.active {
+    background-color: #f4f6f9;
+    color: #2c3e50;
+    border-top: 4px solid #3498db;
+}
+
+/* Controle de Visibilidade das Abas */
+.tab-content {
+    display: none; /* Esconde todas as abas por padrão */
     background-color: white;
     margin: 25px 0;
     padding: 25px;
-    border-radius: 8px;
+    border-radius: 0 0 8px 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.content-section h2 {
+.tab-content.active {
+    display: block; /* Exibe apenas a aba ativa */
+}
+
+.tab-content h2 {
     color: #2c3e50;
     border-bottom: 3px solid #3498db;
     padding-bottom: 8px;
     margin-bottom: 20px;
 }
 
+/* Cartões dos Projetos */
 .project-card {
     background-color: #f8f9fa;
     border: 1px solid #e0e0e0;

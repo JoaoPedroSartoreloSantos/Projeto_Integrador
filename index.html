@@ -13,26 +13,24 @@
             <span>Acessibilidade:</span>
             <button id="btn-increase" title="Aumentar tamanho do texto">🔍 A+</button>
             <button id="btn-decrease" title="Diminuir tamanho do texto">🔍 A-</button>
-            <button id="btn-speak" title="Ler conteúdo da página em voz alta">🔊 Ouvir Página</button>
+            <button id="btn-speak" title="Ler conteúdo da aba visível">🔊 Ouvir Aba Atual</button>
         </div>
     </header>
 
     <header class="main-header">
         <div class="container">
             <h1>Projeto Integrador</h1>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#otica">Introdução à Ótica</a></li>
-                    <li><a href="#robotica">Robótica</a></li>
-                    <li><a href="#fisica-tecnociencia">Física e Tecnociência</a></li>
-                </ul>
+            <nav class="tabs-nav">
+                <button class="tab-btn active" onclick="openTab(event, 'otica')">Introdução à Ótica</button>
+                <button class="tab-btn" onclick="openTab(event, 'robotica')">Robótica</button>
+                <button class="tab-btn" onclick="openTab(event, 'fisica-tecnociencia')">Física e Tecnociência</button>
             </nav>
         </div>
     </header>
 
     <main class="container">
         
-        <section id="otica" class="content-section">
+        <section id="otica" class="tab-content active">
             <h2>Introdução à Ótica</h2>
             <p>
                 A Ótica é o ramo da Física dedicado ao estudo da luz e dos fenômenos luminosos. 
@@ -44,7 +42,7 @@
             </p>
         </section>
 
-        <section id="robotica" class="content-section">
+        <section id="robotica" class="tab-content">
             <h2>Projetos de Robótica</h2>
             
             <article class="project-card">
@@ -116,7 +114,7 @@
 
         </section>
 
-        <section id="fisica-tecnociencia" class="content-section">
+        <section id="fisica-tecnociencia" class="tab-content">
             <h2>Projetos de Física e Tecnociência</h2>
 
             <article class="project-card">
