@@ -3,39 +3,82 @@ const hamburgerBtn = document.getElementById('hamburger-btn');
 const tabsNav = document.getElementById('tabs-nav');
 
 hamburgerBtn.addEventListener('click', () => {
-    tabsNav.classList.toggle('show');
+    const isOpen = tabsNav.classList.toggle('show');
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
 });
 
-// --- FUNCIONALIDADE 2: Sistema de Troca de Abas ---
+// --- FUNCIONALIDADE 2: Sistema de Troca de Abas (padrão ARIA tabs) ---
+let reading = false;
+
 function openTab(evt, tabName) {
-    // Esconde todas as seções
     const tabContents = document.querySelectorAll('.tab-content');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+
+    // Esconde todas as seções e desmarca todos os botões
     tabContents.forEach(content => {
         content.classList.remove('active');
+        content.hidden = true;
     });
 
-    // Desmarca todos os botões de aba
-    const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('tabindex', '-1');
     });
 
     // Exibe a aba clicada e marca o botão como ativo
-    document.getElementById(tabName).classList.add('active');
-    evt.currentTarget.classList.add('active');
+    const targetContent = document.getElementById(tabName);
+    targetContent.classList.add('active');
+    targetContent.hidden = false;
+
+    const targetBtn = evt.currentTarget;
+    targetBtn.classList.add('active');
+    targetBtn.setAttribute('aria-selected', 'true');
+    targetBtn.setAttribute('tabindex', '0');
 
     // Fecha o menu hambúrguer automaticamente no celular após a seleção
     if (window.innerWidth <= 768) {
         tabsNav.classList.remove('show');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
     }
 
     // Para o leitor de voz caso esteja ativo ao trocar de aba
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         reading = false;
-        document.getElementById('btn-speak').innerText = '🔊 Ouvir Aba Atual';
+        btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+        btnSpeak.setAttribute('aria-pressed', 'false');
     }
 }
+
+// --- FUNCIONALIDADE 2b: Navegação das abas com as setas do teclado ---
+// Padrão ARIA: setas esquerda/direita movem o foco e trocam a aba ativa.
+const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+
+tabsNav.addEventListener('keydown', (evt) => {
+    const currentIndex = tabButtons.indexOf(document.activeElement);
+    if (currentIndex === -1) return;
+
+    let newIndex = null;
+
+    if (evt.key === 'ArrowRight') {
+        newIndex = (currentIndex + 1) % tabButtons.length;
+    } else if (evt.key === 'ArrowLeft') {
+        newIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+    } else if (evt.key === 'Home') {
+        newIndex = 0;
+    } else if (evt.key === 'End') {
+        newIndex = tabButtons.length - 1;
+    }
+
+    if (newIndex !== null) {
+        evt.preventDefault();
+        const nextBtn = tabButtons[newIndex];
+        nextBtn.focus();
+        const tabName = nextBtn.getAttribute('aria-controls');
+        openTab({ currentTarget: nextBtn }, tabName);
+    }
+});
 
 // --- FUNCIONALIDADE 3: Aumentar e Diminuir Fonte ---
 let fontSizePercent = 100;
@@ -56,7 +99,6 @@ document.getElementById('btn-decrease').addEventListener('click', () => {
 });
 
 // --- FUNCIONALIDADE 4: Leitor por Voz para a Aba Ativa ---
-let reading = false;
 const btnSpeak = document.getElementById('btn-speak');
 
 btnSpeak.addEventListener('click', () => {
@@ -65,6 +107,7 @@ btnSpeak.addEventListener('click', () => {
             window.speechSynthesis.cancel();
             reading = false;
             btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+            btnSpeak.setAttribute('aria-pressed', 'false');
         } else {
             const activeTab = document.querySelector('.tab-content.active');
             const textToRead = activeTab ? activeTab.innerText : '';
@@ -78,11 +121,13 @@ btnSpeak.addEventListener('click', () => {
             utterance.onend = () => {
                 reading = false;
                 btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+                btnSpeak.setAttribute('aria-pressed', 'false');
             };
 
             window.speechSynthesis.speak(utterance);
             reading = true;
             btnSpeak.innerText = '⏹️ Parar Leitura';
+            btnSpeak.setAttribute('aria-pressed', 'true');
         }
     } else {
         alert('Seu navegador não possui suporte para leitura por áudio.');

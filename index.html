@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projeto Integrador sobre Ótica, Robótica e Física/Tecnociência, com recursos de acessibilidade.">
     <title>Projeto Integrador - Ótica e Tecnologias</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
 
     <header class="accessibility-bar">
         <div class="container accessibility-container">
             <span class="acc-label">Acessibilidade:</span>
             <button id="btn-increase" title="Aumentar tamanho do texto">🔍 A+</button>
             <button id="btn-decrease" title="Diminuir tamanho do texto">🔍 A-</button>
-            <button id="btn-speak" title="Ler conteúdo da aba visível">🔊 Ouvir Aba Atual</button>
+            <button id="btn-speak" title="Ler conteúdo da aba visível" aria-pressed="false">🔊 Ouvir Aba Atual</button>
         </div>
     </header>
 
@@ -21,29 +24,29 @@
         <div class="container header-container">
             <div class="header-top">
                 <h1 class="main-title">Projeto Integrador</h1>
-                
-                <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir Menu">
+
+                <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir Menu" aria-expanded="false" aria-controls="tabs-nav">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
             </div>
 
-            <nav class="tabs-nav" id="tabs-nav">
-                <button class="tab-btn active" onclick="openTab(event, 'otica')">Introdução à Ótica</button>
-                <button class="tab-btn" onclick="openTab(event, 'robotica')">Robótica</button>
-                <button class="tab-btn" onclick="openTab(event, 'fisica-tecnociencia')">Física e Tecnociência</button>
+            <nav class="tabs-nav" id="tabs-nav" role="tablist" aria-label="Seções do projeto">
+                <button class="tab-btn active" role="tab" id="tab-otica" aria-selected="true" aria-controls="otica" onclick="openTab(event, 'otica')">Introdução à Ótica</button>
+                <button class="tab-btn" role="tab" id="tab-robotica" aria-selected="false" aria-controls="robotica" tabindex="-1" onclick="openTab(event, 'robotica')">Robótica</button>
+                <button class="tab-btn" role="tab" id="tab-fisica-tecnociencia" aria-selected="false" aria-controls="fisica-tecnociencia" tabindex="-1" onclick="openTab(event, 'fisica-tecnociencia')">Física e Tecnociência</button>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        
-        <section id="otica" class="tab-content active">
+    <main class="container" id="main-content">
+
+        <section id="otica" class="tab-content active" role="tabpanel" aria-labelledby="tab-otica" tabindex="0">
             <h2>Introdução à Ótica</h2>
             <p>
-                A Ótica é o ramo da Física dedicado ao estudo da luz e dos fenômenos luminosos. 
-                Ela é dividida principalmente em <strong>Ótica Geométrica</strong> (que estuda a propagação retilínea da luz, reflexão e refração) 
+                A Ótica é o ramo da Física dedicado ao estudo da luz e dos fenômenos luminosos.
+                Ela é dividida principalmente em <strong>Ótica Geométrica</strong> (que estuda a propagação retilínea da luz, reflexão e refração)
                 e <strong>Ótica Física</strong> (que analisa a natureza ondulatória da luz, como difração e interferência).
             </p>
             <p>
@@ -51,9 +54,9 @@
             </p>
         </section>
 
-        <section id="robotica" class="tab-content">
+        <section id="robotica" class="tab-content" role="tabpanel" aria-labelledby="tab-robotica" tabindex="0" hidden>
             <h2>Projetos de Robótica</h2>
-            
+
             <article class="project-card">
                 <h3>Robótica - Projeto 1: Nome do Projeto</h3>
                 <p>Descrição breve do primeiro projeto de robótica desenvolvido.</p>
@@ -70,7 +73,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video1.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-robotica-1.vtt" srclang="pt" label="Português">
                         Seu navegador não suporta a tag de vídeo.
                     </video>
                     <p class="media-caption">Vídeo 1: Demonstração do funcionamento do robô.</p>
@@ -93,7 +96,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video2.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-robotica-2.vtt" srclang="pt" label="Português">
                     </video>
                     <p class="media-caption">Vídeo 2: Testes operacionais.</p>
                 </div>
@@ -115,7 +118,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video3.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-robotica-3.vtt" srclang="pt" label="Português">
                     </video>
                     <p class="media-caption">Vídeo 3: Apresentação final do projeto.</p>
                 </div>
@@ -123,7 +126,7 @@
 
         </section>
 
-        <section id="fisica-tecnociencia" class="tab-content">
+        <section id="fisica-tecnociencia" class="tab-content" role="tabpanel" aria-labelledby="tab-fisica-tecnociencia" tabindex="0" hidden>
             <h2>Projetos de Física e Tecnociência</h2>
 
             <article class="project-card">
@@ -142,7 +145,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video4.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-fisica-1.vtt" srclang="pt" label="Português">
                     </video>
                     <p class="media-caption">Vídeo 1: Gravação da execução da prática experimental.</p>
                 </div>
@@ -164,7 +167,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video5.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-fisica-2.vtt" srclang="pt" label="Português">
                     </video>
                     <p class="media-caption">Vídeo 2: Demonstração das medições.</p>
                 </div>
@@ -186,7 +189,7 @@
                 <div class="video-box">
                     <video controls>
                         <source src="caminho-do-video6.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda.vtt" srclang="pt" label="Português">
+                        <track kind="captions" src="legenda-fisica-3.vtt" srclang="pt" label="Português">
                     </video>
                     <p class="media-caption">Vídeo 3: Apresentação das conclusões.</p>
                 </div>
