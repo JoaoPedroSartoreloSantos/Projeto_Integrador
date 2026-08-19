@@ -1,11 +1,45 @@
-/* Variáveis de Cores Solicitadas */
+/* ==========================================================
+   PALETA — inspirada na dispersão da luz (tema de Ótica):
+   um fundo claro e "iluminado", com um degradê de espectro
+   (violeta > verde-água > âmbar) usado como assinatura visual.
+   Todas as cores vêm de variáveis, então o modo escuro
+   (mais abaixo) só precisa sobrescrevê-las.
+   ========================================================== */
 :root {
-    --color-cream: #FCEE8C;
-    --color-light-green: #A7C686;
-    --color-teal: #40957F;
-    --color-dark-teal: #3D6868;
-    --color-dark-slate: #3C515D;
-    --bg-light: #f7f9f6;
+    --bg: #F1F5F1;
+    --surface: #FFFFFF;
+
+    --ink: #1B2B27;         /* texto principal — alto contraste */
+    --ink-soft: #4B5D58;    /* texto secundário */
+
+    --accent-teal: #2B7A68;    /* cor primária (ação, links, aba ativa) */
+    --accent-violet: #5B52D6;  /* cor secundária (degradês, destaques) */
+    --accent-amber: #E2903F;   /* destaque quente (usar com texto escuro) */
+    --accent-cream: #FCEE8C;   /* realce claro (hover, badges) */
+    --accent-dark: #16211E;    /* base escura (barra de acessibilidade) */
+
+    --radius-pill: 999px;
+    --radius-md: 14px;
+    --shadow-soft: 0 2px 10px rgba(27, 43, 39, 0.08);
+    --shadow-lift: 0 8px 20px rgba(27, 43, 39, 0.14);
+}
+
+/* --- Modo escuro: mesma paleta, tons invertidos e acentos mais vivos --- */
+:root[data-theme="dark"] {
+    --bg: #101613;
+    --surface: #1E2B27;
+
+    --ink: #EAF2EE;
+    --ink-soft: #B9C7C2;
+
+    --accent-teal: #4FC3A9;
+    --accent-violet: #8B83FF;
+    --accent-amber: #F0A85A;
+    --accent-cream: #FCEE8C;
+    --accent-dark: #0A100D;
+
+    --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.35);
+    --shadow-lift: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
 
 /* Configurações Globais */
@@ -16,11 +50,26 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--bg-light);
-    color: var(--color-dark-slate);
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    color: var(--ink);
     line-height: 1.6;
-    transition: font-size 0.2s ease;
+    transition: font-size 0.2s ease, background-color 0.25s ease, color 0.25s ease;
+
+    /* Fundo suave, com um leve "brilho" de luz atrás do cabeçalho —
+       um aceno discreto ao tema de ótica do site. */
+    background-color: var(--bg);
+    background-image:
+        radial-gradient(1100px 480px at 50% -12%, rgba(91, 82, 214, 0.10), transparent 60%),
+        radial-gradient(800px 380px at 85% 0%, rgba(226, 144, 63, 0.08), transparent 55%),
+        radial-gradient(700px 340px at 10% 5%, rgba(43, 122, 104, 0.08), transparent 55%);
+    background-repeat: no-repeat;
+}
+
+:root[data-theme="dark"] body {
+    background-image:
+        radial-gradient(1100px 480px at 50% -12%, rgba(139, 131, 255, 0.16), transparent 60%),
+        radial-gradient(800px 380px at 85% 0%, rgba(240, 168, 90, 0.10), transparent 55%),
+        radial-gradient(700px 340px at 10% 5%, rgba(79, 195, 169, 0.12), transparent 55%);
 }
 
 .container {
@@ -34,11 +83,11 @@ body {
     position: absolute;
     left: -9999px;
     top: 0;
-    background-color: var(--color-teal);
+    background-color: var(--accent-teal);
     color: #fff;
     padding: 10px 16px;
     border-radius: 0 0 6px 0;
-    font-weight: bold;
+    font-weight: 600;
     text-decoration: none;
     z-index: 1000;
 }
@@ -50,154 +99,266 @@ body {
 /* --- Foco visível reforçado para navegação por teclado --- */
 a:focus-visible,
 button:focus-visible {
-    outline: 3px solid var(--color-cream);
+    outline: 3px solid var(--accent-cream);
     outline-offset: 2px;
 }
 
-/* --- Barra de Acessibilidade (Canto Esquerdo e Botões Arredondados) --- */
+/* --- Barra de Acessibilidade — colada no canto superior esquerdo --- */
 .accessibility-bar {
-    background-color: var(--color-dark-slate);
-    color: #fff;
-    padding: 10px 0;
+    display: inline-block;
+    background-color: var(--accent-dark);
+    border-radius: 0 0 18px 0;
+    box-shadow: var(--shadow-soft);
 }
 
 .accessibility-container {
     display: flex;
-    justify-content: flex-start; /* Alinhado totalmente à esquerda */
     align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 10px 18px 10px 14px;
+}
+
+.acc-label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--accent-cream);
+    margin-right: 2px;
+}
+
+.acc-btn {
+    background-color: var(--accent-teal);
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.acc-btn:hover {
+    background-color: var(--accent-cream);
+    color: var(--ink);
+    transform: translateY(-1px);
+}
+
+/* --- Header Principal: título e abas centralizados --- */
+.main-header {
+    padding: 30px 0 0 0;
+}
+
+.header-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 28px;
+    text-align: center;
+}
+
+.main-title {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.3px;
+}
+
+.main-subtitle {
+    margin-top: 6px;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+}
+
+/* Assinatura visual: uma linha em degradê de "espectro de luz" */
+.spectrum-line {
+    width: 200px;
+    height: 6px;
+    margin: 20px auto 28px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(90deg, var(--accent-violet), var(--accent-teal), var(--accent-amber), var(--accent-cream));
+}
+
+/* --- Menu de Abas (Desktop) — pílulas centralizadas --- */
+.tabs-nav {
+    display: flex;
+    justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.acc-label {
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: var(--color-cream);
-}
-
-.accessibility-bar button {
-    background-color: var(--color-teal);
-    color: #fff;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 20px; /* Borda bem arredondada */
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.85rem;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.accessibility-bar button:hover {
-    background-color: var(--color-cream);
-    color: var(--color-dark-slate);
-}
-
-/* --- Header Principal e Título --- */
-.main-header {
-    background-color: var(--color-dark-teal);
-    color: white;
-    padding: 20px 0 0 0;
-}
-
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-}
-
-/* Título Ampliado */
-.main-title {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: var(--color-cream);
-    letter-spacing: 0.5px;
-}
-
-/* --- Menu de Abas (Desktop) --- */
-.tabs-nav {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
 .tab-btn {
-    background-color: var(--color-dark-slate);
-    color: white;
+    background-color: var(--surface);
+    color: var(--ink);
     border: none;
-    padding: 14px 22px;
+    padding: 14px 26px;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    border-radius: 10px 10px 0 0;
-    transition: all 0.2s ease;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-soft);
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
 .tab-btn:hover {
-    background-color: var(--color-light-green);
-    color: var(--color-dark-slate);
+    background-color: var(--accent-cream);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lift);
 }
 
 .tab-btn.active {
-    background-color: white;
-    color: var(--color-dark-teal);
-    border-top: 5px solid var(--color-teal);
+    background: linear-gradient(135deg, var(--accent-teal), var(--accent-violet));
+    color: #fff;
+    box-shadow: var(--shadow-lift);
 }
 
-/* Botão Hambúrguer (Oculto no Desktop) */
+/* Botão Hambúrguer (Oculto no Desktop) — fica no canto do header no mobile */
 .hamburger-btn {
     display: none;
+    position: absolute;
+    top: 6px;
+    right: 0;
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     flex-direction: column;
     gap: 5px;
 }
 
 .hamburger-btn span {
     display: block;
-    width: 30px;
+    width: 28px;
     height: 4px;
-    background-color: var(--color-cream);
+    background-color: var(--accent-teal);
     border-radius: 2px;
     transition: all 0.3s ease;
 }
 
 /* --- Conteúdo das Seções --- */
 .tab-content {
-    background-color: white;
+    background-color: var(--surface);
     margin: 25px 0;
     padding: 30px;
-    border-radius: 0 0 10px 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    animation: fadeIn 0.25s ease;
 }
 
-/* A visibilidade agora é controlada pelo atributo "hidden" no HTML,
-   ajustado via JavaScript. O CSS abaixo é só um reforço redundante. */
 .tab-content[hidden] {
     display: none;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .tab-content h2 {
-    color: var(--color-dark-teal);
-    border-bottom: 3px solid var(--color-light-green);
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    color: var(--accent-teal);
+    border-bottom: 3px solid var(--accent-cream);
     padding-bottom: 8px;
     margin-bottom: 20px;
 }
 
 /* Cartões dos Projetos */
 .project-card {
-    background-color: #fafcf8;
-    border: 1px solid var(--color-light-green);
-    border-radius: 8px;
-    padding: 20px;
+    position: relative;
+    background-color: var(--bg);
+    border: 1px solid rgba(43, 122, 104, 0.18);
+    border-radius: var(--radius-md);
+    padding: 30px 20px 20px;
+    margin-top: 30px;
     margin-bottom: 25px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover {
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-3px);
+}
+
+/* Espaça melhor os blocos dentro de cada card (texto, card de aplicação real, fotos, vídeo) */
+.project-card > * + * {
+    margin-top: 22px;
 }
 
 .project-card h3 {
-    color: var(--color-teal);
-    margin-bottom: 12px;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    color: var(--accent-violet);
+}
+
+/* Numeração do projeto, em badge no canto do card */
+.project-badge {
+    position: absolute;
+    top: -14px;
+    left: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    color: #fff;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.project-card:nth-of-type(3n+1) .project-badge { background-color: var(--accent-teal); }
+.project-card:nth-of-type(3n+2) .project-badge { background-color: var(--accent-violet); }
+.project-card:nth-of-type(3n+3) .project-badge {
+    background-color: var(--accent-amber);
+    color: var(--ink);
+}
+
+/* Card "Aplicação real": item existente relacionado ao tema, com imagem + texto */
+.real-world-card {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 18px;
+    align-items: center;
+    background-color: var(--surface);
+    border: 1px solid rgba(91, 82, 214, 0.18);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.real-world-card__media img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+.real-world-card__label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-violet);
+    background-color: rgba(91, 82, 214, 0.12);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 8px;
+}
+
+.real-world-card__text p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
 }
 
 /* Mídias */
@@ -205,51 +366,96 @@ button:focus-visible {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 15px;
-    margin: 15px 0;
 }
 
 .media-grid figure {
-    background-color: #fff;
+    background-color: var(--surface);
     padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
 }
 
 .media-grid img {
     width: 100%;
     height: auto;
-    border-radius: 4px;
+    border-radius: 6px;
     display: block;
 }
 
 figcaption, .media-caption {
     font-size: 0.85rem;
-    color: var(--color-dark-slate);
+    color: var(--ink-soft);
     margin-top: 6px;
     font-style: italic;
 }
 
 .video-box {
-    margin-top: 15px;
-    background: var(--color-dark-slate);
+    background: var(--accent-dark);
     padding: 12px;
-    border-radius: 6px;
+    border-radius: 10px;
 }
 
-.video-box video {
+/* Vídeo com capa (poster) e botão de play customizado por cima */
+.video-wrapper {
+    position: relative;
+}
+
+.video-wrapper video {
     width: 100%;
     max-height: 400px;
     display: block;
+    border-radius: 6px;
+}
+
+.video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.92);
+    color: var(--accent-dark);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-lift);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.video-play-btn:hover {
+    background-color: var(--accent-cream);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.video-play-btn.is-hidden {
+    display: none;
 }
 
 .video-box .media-caption {
-    color: var(--color-cream);
+    color: var(--accent-cream);
+}
+
+/* --- Movimento reduzido: respeita a preferência do sistema --- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
 }
 
 /* --- RESPONSIVIDADE PARA CELULAR --- */
 @media (max-width: 768px) {
     .main-title {
-        font-size: 1.9rem; /* Reduz ligeiramente para caber melhor na tela do celular */
+        font-size: 2rem;
+    }
+
+    .main-subtitle {
+        font-size: 0.9rem;
     }
 
     /* Exibe o botão Hambúrguer no Celular */
@@ -262,7 +468,7 @@ figcaption, .media-caption {
         display: none;
         flex-direction: column;
         width: 100%;
-        padding-bottom: 15px;
+        padding-bottom: 4px;
     }
 
     /* Quando ativado pelo botão hambúrguer */
@@ -272,18 +478,18 @@ figcaption, .media-caption {
 
     .tab-btn {
         width: 100%;
-        text-align: left;
-        border-radius: 6px;
-        padding: 12px 15px;
-    }
-
-    .tab-btn.active {
-        border-top: none;
-        border-left: 6px solid var(--color-teal);
+        text-align: center;
     }
 
     .tab-content {
         padding: 18px;
-        border-radius: 8px;
+    }
+
+    .real-world-card {
+        grid-template-columns: 1fr;
+    }
+
+    .real-world-card__media img {
+        height: 180px;
     }
 }

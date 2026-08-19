@@ -9,6 +9,7 @@ hamburgerBtn.addEventListener('click', () => {
 
 // --- FUNCIONALIDADE 2: Sistema de Troca de Abas (padrão ARIA tabs) ---
 let reading = false;
+const btnSpeak = document.getElementById('btn-speak');
 
 function openTab(evt, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
@@ -46,13 +47,12 @@ function openTab(evt, tabName) {
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         reading = false;
-        btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+        btnSpeak.innerText = '🔊 Ouvir';
         btnSpeak.setAttribute('aria-pressed', 'false');
     }
 }
 
 // --- FUNCIONALIDADE 2b: Navegação das abas com as setas do teclado ---
-// Padrão ARIA: setas esquerda/direita movem o foco e trocam a aba ativa.
 const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
 
 tabsNav.addEventListener('keydown', (evt) => {
@@ -99,14 +99,12 @@ document.getElementById('btn-decrease').addEventListener('click', () => {
 });
 
 // --- FUNCIONALIDADE 4: Leitor por Voz para a Aba Ativa ---
-const btnSpeak = document.getElementById('btn-speak');
-
 btnSpeak.addEventListener('click', () => {
     if ('speechSynthesis' in window) {
         if (reading) {
             window.speechSynthesis.cancel();
             reading = false;
-            btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+            btnSpeak.innerText = '🔊 Ouvir';
             btnSpeak.setAttribute('aria-pressed', 'false');
         } else {
             const activeTab = document.querySelector('.tab-content.active');
@@ -120,16 +118,59 @@ btnSpeak.addEventListener('click', () => {
 
             utterance.onend = () => {
                 reading = false;
-                btnSpeak.innerText = '🔊 Ouvir Aba Atual';
+                btnSpeak.innerText = '🔊 Ouvir';
                 btnSpeak.setAttribute('aria-pressed', 'false');
             };
 
             window.speechSynthesis.speak(utterance);
             reading = true;
-            btnSpeak.innerText = '⏹️ Parar Leitura';
+            btnSpeak.innerText = '⏹️ Parar';
             btnSpeak.setAttribute('aria-pressed', 'true');
         }
     } else {
         alert('Seu navegador não possui suporte para leitura por áudio.');
     }
+});
+
+// --- FUNCIONALIDADE 5: Capa e botão de play customizado nos vídeos ---
+document.querySelectorAll('.video-wrapper').forEach(wrapper => {
+    const video = wrapper.querySelector('video');
+    const playBtn = wrapper.querySelector('.video-play-btn');
+
+    playBtn.addEventListener('click', () => {
+        video.play();
+    });
+
+    video.addEventListener('play', () => {
+        playBtn.classList.add('is-hidden');
+    });
+
+    video.addEventListener('pause', () => {
+        playBtn.classList.remove('is-hidden');
+    });
+
+    video.addEventListener('ended', () => {
+        playBtn.classList.remove('is-hidden');
+    });
+});
+
+// --- FUNCIONALIDADE 6: Alternar entre modo claro e escuro ---
+const btnTheme = document.getElementById('btn-theme');
+const htmlEl = document.documentElement;
+
+function applyThemeLabel(theme) {
+    const isDark = theme === 'dark';
+    btnTheme.innerText = isDark ? '☀️ Claro' : '🌙 Escuro';
+    btnTheme.setAttribute('aria-pressed', String(isDark));
+}
+
+// O tema já foi definido no <head> (evita flash); aqui só sincronizamos o rótulo do botão
+applyThemeLabel(htmlEl.getAttribute('data-theme') || 'light');
+
+btnTheme.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    applyThemeLabel(next);
 });

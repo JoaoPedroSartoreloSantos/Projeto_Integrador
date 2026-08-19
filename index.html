@@ -2,8 +2,30 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Aplica o tema salvo (claro/escuro) antes da página pintar, evitando "flash" de cor errada -->
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Projeto Integrador sobre Ótica, Robótica e Física/Tecnociência, com recursos de acessibilidade.">
+
+    <!-- Open Graph: como o link aparece ao ser compartilhado -->
+    <meta property="og:title" content="Projeto Integrador - Ótica e Tecnologias">
+    <meta property="og:description" content="Projeto sobre Ótica, Robótica e Física/Tecnociência.">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
     <title>Projeto Integrador - Ótica e Tecnologias</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,26 +33,27 @@
 
     <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
 
-    <header class="accessibility-bar">
-        <div class="container accessibility-container">
-            <span class="acc-label">Acessibilidade:</span>
-            <button id="btn-increase" title="Aumentar tamanho do texto">🔍 A+</button>
-            <button id="btn-decrease" title="Diminuir tamanho do texto">🔍 A-</button>
-            <button id="btn-speak" title="Ler conteúdo da aba visível" aria-pressed="false">🔊 Ouvir Aba Atual</button>
+    <div class="accessibility-bar" role="region" aria-label="Ferramentas de acessibilidade">
+        <div class="accessibility-container">
+            <span class="acc-label">Acessibilidade</span>
+            <button id="btn-increase" class="acc-btn" title="Aumentar tamanho do texto">A+</button>
+            <button id="btn-decrease" class="acc-btn" title="Diminuir tamanho do texto">A-</button>
+            <button id="btn-speak" class="acc-btn" title="Ler conteúdo da aba visível" aria-pressed="false">🔊 Ouvir</button>
+            <button id="btn-theme" class="acc-btn" title="Alternar tema claro/escuro" aria-pressed="false">🌙 Escuro</button>
         </div>
-    </header>
+    </div>
 
     <header class="main-header">
-        <div class="container header-container">
-            <div class="header-top">
-                <h1 class="main-title">Projeto Integrador</h1>
+        <div class="header-inner">
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir Menu" aria-expanded="false" aria-controls="tabs-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-                <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir Menu" aria-expanded="false" aria-controls="tabs-nav">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+            <h1 class="main-title">Projeto Integrador</h1>
+            <p class="main-subtitle">Ótica, Robótica e Física &amp; Tecnociência</p>
+            <div class="spectrum-line" aria-hidden="true"></div>
 
             <nav class="tabs-nav" id="tabs-nav" role="tablist" aria-label="Seções do projeto">
                 <button class="tab-btn active" role="tab" id="tab-otica" aria-selected="true" aria-controls="otica" onclick="openTab(event, 'otica')">Introdução à Ótica</button>
@@ -58,68 +81,113 @@
             <h2>Projetos de Robótica</h2>
 
             <article class="project-card">
-                <h3>Robótica - Projeto 1: Nome do Projeto</h3>
+                <span class="project-badge" aria-hidden="true">01</span>
+                <h3>Projeto 1: Nome do Projeto</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este projeto" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve do primeiro projeto de robótica desenvolvido.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 1 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 1 de Robótica" loading="lazy">
                         <figcaption>Legenda: Imagem do protótipo em fase de montagem.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 1 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 1 de Robótica" loading="lazy">
                         <figcaption>Legenda: Detalhe dos circuitos e sensores instalados.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video1.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-robotica-1.vtt" srclang="pt" label="Português">
-                        Seu navegador não suporta a tag de vídeo.
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+1">
+                            <source src="caminho-do-video1.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-robotica-1.vtt" srclang="pt" label="Português">
+                            Seu navegador não suporta a tag de vídeo.
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 1: Demonstração do funcionamento do robô.</p>
                 </div>
             </article>
 
             <article class="project-card">
-                <h3>Robótica - Projeto 2: Nome do Projeto</h3>
+                <span class="project-badge" aria-hidden="true">02</span>
+                <h3>Projeto 2: Nome do Projeto</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este projeto" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve do segundo projeto de robótica.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 2 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 2 de Robótica" loading="lazy">
                         <figcaption>Legenda: Foto do sistema de controle.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 2 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 2 de Robótica" loading="lazy">
                         <figcaption>Legenda: Testes do motor em funcionamento.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video2.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-robotica-2.vtt" srclang="pt" label="Português">
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+2">
+                            <source src="caminho-do-video2.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-robotica-2.vtt" srclang="pt" label="Português">
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 2: Testes operacionais.</p>
                 </div>
             </article>
 
             <article class="project-card">
-                <h3>Robótica - Projeto 3: Nome do Projeto</h3>
+                <span class="project-badge" aria-hidden="true">03</span>
+                <h3>Projeto 3: Nome do Projeto</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este projeto" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve do terceiro projeto de robótica.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 3 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 1 do Projeto 3 de Robótica" loading="lazy">
                         <figcaption>Legenda: Peças e estrutura do projeto.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 3 de Robótica">
+                        <img src="https://via.placeholder.com/400x250" alt="Descrição da Foto 2 do Projeto 3 de Robótica" loading="lazy">
                         <figcaption>Legenda: Projeto finalizado e montado.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video3.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-robotica-3.vtt" srclang="pt" label="Português">
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+3">
+                            <source src="caminho-do-video3.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-robotica-3.vtt" srclang="pt" label="Português">
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 3: Apresentação final do projeto.</p>
                 </div>
             </article>
@@ -130,67 +198,112 @@
             <h2>Projetos de Física e Tecnociência</h2>
 
             <article class="project-card">
-                <h3>Física e Tecnociência - Projeto 1: Nome do Experimento</h3>
+                <span class="project-badge" aria-hidden="true">01</span>
+                <h3>Projeto 1: Nome do Experimento</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este experimento" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve sobre o experimento científico realizado.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do experimento de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do experimento de física" loading="lazy">
                         <figcaption>Legenda: Materiais utilizados no experimento.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do experimento de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do experimento de física" loading="lazy">
                         <figcaption>Legenda: Registro dos resultados obtidos.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video4.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-fisica-1.vtt" srclang="pt" label="Português">
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+4">
+                            <source src="caminho-do-video4.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-fisica-1.vtt" srclang="pt" label="Português">
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 1: Gravação da execução da prática experimental.</p>
                 </div>
             </article>
 
             <article class="project-card">
-                <h3>Física e Tecnociência - Projeto 2: Nome do Experimento</h3>
+                <span class="project-badge" aria-hidden="true">02</span>
+                <h3>Projeto 2: Nome do Experimento</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este experimento" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve sobre o segundo experimento de Física.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do segundo projeto de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do segundo projeto de física" loading="lazy">
                         <figcaption>Legenda: Montagem do esquema prático.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do segundo projeto de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do segundo projeto de física" loading="lazy">
                         <figcaption>Legenda: Coleta e análise de dados.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video5.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-fisica-2.vtt" srclang="pt" label="Português">
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+5">
+                            <source src="caminho-do-video5.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-fisica-2.vtt" srclang="pt" label="Português">
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 2: Demonstração das medições.</p>
                 </div>
             </article>
 
             <article class="project-card">
-                <h3>Física e Tecnociência - Projeto 3: Nome do Experimento</h3>
+                <span class="project-badge" aria-hidden="true">03</span>
+                <h3>Projeto 3: Nome do Experimento</h3>
+
+                <div class="real-world-card">
+                    <figure class="real-world-card__media">
+                        <img src="https://via.placeholder.com/300x220?text=Imagem" alt="Adicione aqui a imagem do item real relacionado a este experimento" loading="lazy">
+                    </figure>
+                    <div class="real-world-card__text">
+                        <span class="real-world-card__label">Aplicação real</span>
+                        <p>Em breve: um item existente que usa esse conhecimento e ajuda a sociedade, com uma breve explicação.</p>
+                    </div>
+                </div>
+
                 <p>Descrição breve sobre o terceiro experimento de Física.</p>
                 <div class="media-grid">
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do terceiro projeto de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 1 do terceiro projeto de física" loading="lazy">
                         <figcaption>Legenda: Protótipo aplicado à física e tecnociência.</figcaption>
                     </figure>
                     <figure>
-                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do terceiro projeto de física">
+                        <img src="https://via.placeholder.com/400x250" alt="Foto 2 do terceiro projeto de física" loading="lazy">
                         <figcaption>Legenda: Conclusão do experimento.</figcaption>
                     </figure>
                 </div>
                 <div class="video-box">
-                    <video controls>
-                        <source src="caminho-do-video6.mp4" type="video/mp4">
-                        <track kind="captions" src="legenda-fisica-3.vtt" srclang="pt" label="Português">
-                    </video>
+                    <div class="video-wrapper">
+                        <video controls poster="https://via.placeholder.com/600x340?text=Capa+do+Video+6">
+                            <source src="caminho-do-video6.mp4" type="video/mp4">
+                            <track kind="captions" src="legenda-fisica-3.vtt" srclang="pt" label="Português">
+                        </video>
+                        <button class="video-play-btn" type="button" aria-label="Reproduzir vídeo">▶</button>
+                    </div>
                     <p class="media-caption">Vídeo 3: Apresentação das conclusões.</p>
                 </div>
             </article>
