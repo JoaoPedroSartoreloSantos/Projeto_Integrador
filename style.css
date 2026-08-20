@@ -201,29 +201,46 @@ button:focus-visible {
 }
 
 .tab-btn {
-    background-color: var(--surface);
+    --tab-fill: var(--surface);
     color: var(--ink);
-    border: none;
-    padding: 14px 26px;
+    border: 3px solid transparent;
+    padding: 11px 24px;
     font-size: 1rem;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
     border-radius: var(--radius-pill);
     box-shadow: var(--shadow-soft);
-    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+
+    /* Camada interna sólida (--tab-fill) + camada externa em degradê de espectro,
+       visível só na borda graças ao background-clip. */
+    background-image:
+        linear-gradient(var(--tab-fill), var(--tab-fill)),
+        linear-gradient(90deg, var(--accent-violet), var(--accent-teal), var(--accent-amber), var(--accent-cream), var(--accent-violet));
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: spectrumShift 5s linear infinite;
+
+    transition: color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
 .tab-btn:hover {
-    background-color: var(--accent-cream);
+    --tab-fill: var(--accent-cream);
     color: var(--ink);
     transform: translateY(-2px) scale(1.02);
     box-shadow: var(--shadow-lift);
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, var(--accent-teal), var(--accent-violet));
+    border-color: transparent;
+    background-image: linear-gradient(90deg, var(--accent-violet), var(--accent-teal), var(--accent-amber), var(--accent-cream), var(--accent-violet));
+    background-origin: border-box;
+    background-clip: border-box;
+    background-size: 200% 100%;
+    animation: spectrumShift 5s linear infinite;
     color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
     box-shadow: var(--shadow-lift);
 }
 
