@@ -106,9 +106,13 @@ button:focus-visible {
 /* --- Barra de Acessibilidade — colada no canto superior esquerdo --- */
 .accessibility-bar {
     display: inline-block;
-    background-color: var(--accent-dark);
+    background-color: var(--surface);
+    border: 1px solid rgba(43, 122, 104, 0.15);
+    border-top: none;
+    border-left: none;
     border-radius: 0 0 18px 0;
     box-shadow: var(--shadow-soft);
+    animation: slideInLeft 0.5s ease both;
 }
 
 .accessibility-container {
@@ -122,7 +126,7 @@ button:focus-visible {
 .acc-label {
     font-weight: 600;
     font-size: 0.8rem;
-    color: var(--accent-cream);
+    color: var(--ink-soft);
     margin-right: 2px;
 }
 
@@ -159,6 +163,7 @@ button:focus-visible {
     margin: 0 auto;
     padding-bottom: 28px;
     text-align: center;
+    animation: headerIn 0.6s ease both;
 }
 
 .main-title {
@@ -182,7 +187,9 @@ button:focus-visible {
     height: 6px;
     margin: 20px auto 28px;
     border-radius: var(--radius-pill);
-    background: linear-gradient(90deg, var(--accent-violet), var(--accent-teal), var(--accent-amber), var(--accent-cream));
+    background: linear-gradient(90deg, var(--accent-violet), var(--accent-teal), var(--accent-amber), var(--accent-cream), var(--accent-violet));
+    background-size: 200% 100%;
+    animation: spectrumShift 5s linear infinite;
 }
 
 /* --- Menu de Abas (Desktop) — pílulas centralizadas --- */
@@ -210,7 +217,7 @@ button:focus-visible {
 .tab-btn:hover {
     background-color: var(--accent-cream);
     color: var(--ink);
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: var(--shadow-lift);
 }
 
@@ -240,7 +247,19 @@ button:focus-visible {
     height: 4px;
     background-color: var(--accent-teal);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-btn[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-btn[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* --- Conteúdo das Seções --- */
@@ -262,6 +281,31 @@ button:focus-visible {
     to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes headerIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-14px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spectrumShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: var(--shadow-lift); }
+    50% { box-shadow: 0 8px 22px rgba(43, 122, 104, 0.55); }
+}
+
 .tab-content h2 {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     color: var(--accent-teal);
@@ -280,7 +324,12 @@ button:focus-visible {
     margin-top: 30px;
     margin-bottom: 25px;
     transition: box-shadow 0.2s ease, transform 0.2s ease;
+    animation: cardIn 0.4s ease backwards;
 }
+
+.project-card:nth-of-type(1) { animation-delay: 0.05s; }
+.project-card:nth-of-type(2) { animation-delay: 0.15s; }
+.project-card:nth-of-type(3) { animation-delay: 0.25s; }
 
 .project-card:hover {
     box-shadow: var(--shadow-lift);
@@ -335,12 +384,22 @@ button:focus-visible {
     padding: 16px;
 }
 
+.real-world-card__media {
+    overflow: hidden;
+    border-radius: 8px;
+}
+
 .real-world-card__media img {
     width: 100%;
     height: 150px;
     object-fit: cover;
     border-radius: 8px;
     display: block;
+    transition: transform 0.35s ease;
+}
+
+.real-world-card:hover .real-world-card__media img {
+    transform: scale(1.06);
 }
 
 .real-world-card__label {
@@ -373,6 +432,7 @@ button:focus-visible {
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .media-grid img {
@@ -380,6 +440,11 @@ button:focus-visible {
     height: auto;
     border-radius: 6px;
     display: block;
+    transition: transform 0.35s ease;
+}
+
+.media-grid figure:hover img {
+    transform: scale(1.05);
 }
 
 figcaption, .media-caption {
@@ -427,9 +492,14 @@ figcaption, .media-caption {
     transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
+.video-play-btn {
+    animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
 .video-play-btn:hover {
     background-color: var(--accent-cream);
     transform: translate(-50%, -50%) scale(1.08);
+    animation-play-state: paused;
 }
 
 .video-play-btn.is-hidden {
@@ -491,5 +561,22 @@ figcaption, .media-caption {
 
     .real-world-card__media img {
         height: 180px;
+    }
+
+    .accessibility-container {
+        padding: 12px 16px;
+        gap: 10px;
+        row-gap: 10px;
+    }
+
+    .acc-label {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .acc-btn {
+        padding: 9px 16px;
+        font-size: 0.88rem;
+        min-height: 40px;
     }
 }
