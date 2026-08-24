@@ -531,6 +531,38 @@ figcaption, .media-caption {
     color: var(--accent-cream);
 }
 
+/* --- Card de destaque (ex: conexão entre óptica e fake news) --- */
+.insight-card {
+    background-color: var(--bg);
+    border: 1px solid rgba(91, 82, 214, 0.18);
+    border-radius: var(--radius-md);
+    padding: 26px 22px;
+    margin-top: 34px;
+    animation: cardIn 0.5s ease backwards;
+    animation-delay: 0.1s;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.insight-card:hover {
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-3px);
+}
+
+.insight-card > * + * {
+    margin-top: 20px;
+}
+
+.insight-card h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    color: var(--accent-violet);
+    font-size: 1.25rem;
+}
+
+.insight-card > p {
+    color: var(--ink-soft);
+    font-size: 0.97rem;
+}
+
 /* --- Blocos expansíveis dentro dos cards (Explicação científica, Proposta, etc.) --- */
 .info-accordion {
     border: 1px solid rgba(43, 122, 104, 0.15);
