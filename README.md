@@ -1,6 +1,6 @@
-# Projeto Integrador — Ótica, Robótica e Física/Tecnociência
+# Projeto Integrador — Ótica, Robótica e Física e Tecnociência
 
-Site do projeto integrador com conteúdo introdutório sobre Ótica e registros dos projetos desenvolvidos em Robótica e Física/Tecnociência.
+Site do projeto integrador com conteúdo introdutório sobre Ótica e registros dos projetos desenvolvidos em Robótica e Física e Tecnociência.
 
 ## Estrutura
 - `index.html` — estrutura e conteúdo do site
