@@ -15,7 +15,6 @@ function openTab(evt, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
     const tabBtns = document.querySelectorAll('.tab-btn');
 
-    // Esconde todas as seções e desmarca todos os botões
     tabContents.forEach(content => {
         content.classList.remove('active');
         content.hidden = true;
@@ -27,7 +26,6 @@ function openTab(evt, tabName) {
         btn.setAttribute('tabindex', '-1');
     });
 
-    // Exibe a aba clicada e marca o botão como ativo
     const targetContent = document.getElementById(tabName);
     targetContent.classList.add('active');
     targetContent.hidden = false;
@@ -37,13 +35,11 @@ function openTab(evt, tabName) {
     targetBtn.setAttribute('aria-selected', 'true');
     targetBtn.setAttribute('tabindex', '0');
 
-    // Fecha o menu hambúrguer automaticamente no celular após a seleção
     if (window.innerWidth <= 768) {
         tabsNav.classList.remove('show');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
     }
 
-    // Para o leitor de voz caso esteja ativo ao trocar de aba
     if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         reading = false;
@@ -141,73 +137,12 @@ document.querySelectorAll('.video-wrapper').forEach(wrapper => {
         video.play();
     });
 
-    video.addEventListener('play', () => {
-        playBtn.classList.add('is-hidden');
-    });
-
-    video.addEventListener('pause', () => {
-        playBtn.classList.remove('is-hidden');
-    });
-
-    video.addEventListener('ended', () => {
-        playBtn.classList.remove('is-hidden');
-    });
+    video.addEventListener('play', () => playBtn.classList.add('is-hidden'));
+    video.addEventListener('pause', () => playBtn.classList.remove('is-hidden'));
+    video.addEventListener('ended', () => playBtn.classList.remove('is-hidden'));
 });
 
-// --- FUNCIONALIDADE 7: Clicar numa foto para ampliar (lightbox) ---
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const lightboxCloseBtn = document.getElementById('lightbox-close');
-let lastFocusedBeforeLightbox = null;
-
-function openLightbox(src, alt) {
-    lightboxImg.src = src;
-    lightboxImg.alt = alt || '';
-    lightbox.hidden = false;
-    lastFocusedBeforeLightbox = document.activeElement;
-    lightboxCloseBtn.focus();
-    document.addEventListener('keydown', handleLightboxKeydown);
-}
-
-function closeLightbox() {
-    lightbox.hidden = true;
-    lightboxImg.src = '';
-    document.removeEventListener('keydown', handleLightboxKeydown);
-    if (lastFocusedBeforeLightbox) {
-        lastFocusedBeforeLightbox.focus();
-    }
-}
-
-function handleLightboxKeydown(evt) {
-    if (evt.key === 'Escape') {
-        closeLightbox();
-    }
-}
-
-lightboxCloseBtn.addEventListener('click', closeLightbox);
-
-// Fecha ao clicar fora da imagem (no fundo escuro)
-lightbox.addEventListener('click', (evt) => {
-    if (evt.target === lightbox) {
-        closeLightbox();
-    }
-});
-
-// Torna clicável (mouse e teclado) toda foto de projeto, de "aplicação real" e de tópico
-document.querySelectorAll('.media-grid img, .real-world-card__media img, .topic-card__media img').forEach(img => {
-    img.setAttribute('tabindex', '0');
-    img.setAttribute('role', 'button');
-    img.setAttribute('aria-label', 'Ampliar imagem: ' + (img.alt || 'foto'));
-
-    img.addEventListener('click', () => openLightbox(img.src, img.alt));
-    img.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Enter' || evt.key === ' ') {
-            evt.preventDefault();
-            openLightbox(img.src, img.alt);
-        }
-    });
-});
-// --- FUNCIONALIDADE 8: Alternar entre modo claro e escuro ---
+// --- FUNCIONALIDADE 6: Alternar entre modo claro e escuro ---
 const btnTheme = document.getElementById('btn-theme');
 const htmlEl = document.documentElement;
 
@@ -217,7 +152,6 @@ function applyThemeLabel(theme) {
     btnTheme.setAttribute('aria-pressed', String(isDark));
 }
 
-// O tema já foi definido no <head> (evita flash); aqui só sincronizamos o rótulo do botão
 applyThemeLabel(htmlEl.getAttribute('data-theme') || 'light');
 
 btnTheme.addEventListener('click', () => {
@@ -226,4 +160,21 @@ btnTheme.addEventListener('click', () => {
     htmlEl.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     applyThemeLabel(next);
+});
+
+// --- FUNCIONALIDADE 7: Flashcards — passar o mouse expande, clicar vira/desvira ---
+document.querySelectorAll('.flashcard').forEach(card => {
+    function toggleFlip() {
+        const flipped = card.classList.toggle('is-flipped');
+        card.setAttribute('aria-pressed', String(flipped));
+    }
+
+    card.addEventListener('click', toggleFlip);
+
+    card.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Enter' || evt.key === ' ') {
+            evt.preventDefault();
+            toggleFlip();
+        }
+    });
 });
